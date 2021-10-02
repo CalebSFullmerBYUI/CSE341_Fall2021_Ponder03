@@ -8,7 +8,10 @@
     <body>
         <% include ../includes/banner.ejs%>
         <div style="display: flex; align-items: center; flex-direction: column; padding-top: 10px;">
-            <a class="btn btn-secondary" href="/add-product">Add Product</a>
+
+            <% if (products.length == 0) { %>
+                <p>Search returned no results.</p>
+            <% } %>
 
             <% for (product of products) {%>
                 <% include ../includes/product.ejs %>

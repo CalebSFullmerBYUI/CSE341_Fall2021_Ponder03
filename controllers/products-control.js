@@ -2,18 +2,28 @@ const { getProducts } = require("../models/product");
 const Product = require("../models/product");
 
 let productsSearch = [];
+let previousSearch = "";
 
 const makeProductId = (productName) => {
     return productName + Math.floor((Math.random() * 1000000000)); 
 }
 
 exports.loadSearchPage = (req, res, next) => {
-    Product.getProducts(products => {
-        res.render("pages/products-search", {
-            title: "Search",
-            products: productsSearch
+    if (productsSearch.length == 0 && previousSearch == "") {
+        Product.getProducts(products => {
+            res.render("pages/products-search", {
+                title: "Search",
+                products: products
+            });
         });
-    });
+    } else {
+        Product.getProducts(products => {
+            res.render("pages/products-search", {
+                title: "Search",
+                products: productsSearch
+            });
+        });
+    }
 }
 
 exports.loadEditPage = (req, res, next) => {
@@ -61,7 +71,8 @@ exports.searchProducts = (req, res, next) => {
     Product.getProducts(products => {
         let searchTerm = req.body.searchQuery.toLowerCase();
         let foundItems = [];
-        //console.log(products);
+        
+        previousSearch = searchTerm;
 
         for (product of products) {
             if (product.name && product.name.toLowerCase().search(searchTerm) != -1) {
