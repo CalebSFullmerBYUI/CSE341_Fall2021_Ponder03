@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <% include ../includes/header.ejs %>
+    </head>
+
+    <body>
+        <% include ../includes/banner.ejs%>
+        <div style="display: flex; align-items: center; flex-direction: column; padding-top: 10px;">
+            <a class="btn btn-secondary" href="/add-product">Add Product</a>
+
+            <% for (product of products) {%>
+                <% include ../includes/product.ejs %>
+            <% } %>
+        </div>
+    </body>
+</html>
